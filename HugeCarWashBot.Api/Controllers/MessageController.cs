@@ -18,24 +18,24 @@ namespace HugeCarWashBot.Api.Controllers
         }
 
         [HttpPost("{id}")]
-        public async Task<string> Post([FromRoute] string id, string message)
+        public async Task<bool> Post([FromRoute] string id, string message)
         {
             var result = await _unitOfWork.Users.GetAsync(p => p.TelegramId == id);
 
-            string success = null;
+            bool success = true;
 
             if (result == null)
             {
-                return "false";
+                return false;
             }
 
             try
             {
                 await _botClient.SendTextMessageAsync(chatId: id, text: message);
             }
-            catch(Exception ex)
+            catch
             {
-                success = "false => " + ex;
+                success = false;
             }
             return success;
         }
