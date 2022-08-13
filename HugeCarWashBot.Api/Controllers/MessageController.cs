@@ -17,7 +17,7 @@ namespace HugeCarWashBot.Api.Controllers
             _botClient = botClient;
         }
 
-        [HttpPost("{id:string}")]
+        [HttpPost("{id}")]
         public async Task<bool> Post([FromRoute] string id, string message)
         {
             var result = await _unitOfWork.Users.GetAsync(p => p.TelegramId == id);
